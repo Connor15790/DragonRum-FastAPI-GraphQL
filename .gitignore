@@ -1,0 +1,14 @@
+# Python virtual environment
+venv/
+.venv/
+env/
+
+# Environment variables (Crucial for DragonRum security!)
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# IDE settings
+.vscode/
