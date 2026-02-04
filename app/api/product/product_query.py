@@ -14,8 +14,8 @@ class ProductType:
     category: str
     price: float
     availableQty: int
-    createdAt: str
-    updatedAt: str
+    createdAt: Optional[str] = None
+    updatedAt: Optional[str] = None
 
 @strawberry.type
 class ProductQuery:
@@ -45,3 +45,21 @@ class ProductQuery:
             )
 
         return products_list
+
+    @strawberry.field
+    async def get_one_product(self, slug: str) -> Optional[ProductType]:
+        product = await product_collection.find_one({"slug": slug})
+
+        if not product:
+            raise Exception("No product found!")
+        
+        return ProductType(
+            id=str(product["_id"]),
+            title=product.get("title", "Unknown"),
+            slug=product.get("slug"),
+            desc=product.get("desc"),
+            img=product.get("img"),
+            category=product.get("category"),
+            price=float(product.get("price", 0.0)),
+            availableQty=int(product.get("availableQty", 0))
+        )
