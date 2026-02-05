@@ -13,6 +13,7 @@ from .cart.cart_query import CartQuery
 class Query(AuthQuery, ProductQuery, CartQuery): 
     pass
 
+@strawberry.type
 class Mutation(AuthMutation, ProductMutation, CartMutation):
     pass
 

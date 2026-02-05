@@ -20,13 +20,12 @@ class CartQuery:
         
         try:
             payload = jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
-            user_id_str = payload.get("id")
-            user_id = ObjectId(user_id_str)
+            user_id = payload.get("id")
 
             print("JWT PAYLOAD:", payload)
             print("ID TYPE:", type(payload.get("id")))
 
-            cart = await cart_collection.find_one({"userId": user_id})
+            cart = await cart_collection.find_one({"userId": ObjectId(user_id)})
             if not cart:
                 return CartType(userId=user_id, items=[], totalPrice=0)
             
